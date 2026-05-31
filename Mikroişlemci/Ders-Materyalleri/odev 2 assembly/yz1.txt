@@ -1,0 +1,82 @@
+
+.DATA
+    sayilar: db 90,80,70,50,60,10,20,30,40,100 ; sayilar diziye yerlerlesti   
+
+ 
+mov ax,0; min indis
+mov bx,0; temp  
+mov dx,0; temp2
+mov di,0; ic dongu (j)  
+mov si,0; dis dongu (i) 
+
+dongu1:  
+    mov di,si; i=j      
+    mov ax,si; i yi muhafaza ediyorum, daha sonra assagida si yi degistirecegim
+    jmp dongu2 ; dongu2 ye kosulsuz git
+    
+    minKaydet: 
+    ;mov di,ax   
+    mov dx,si;min deger saklanir min=dx
+    mov si,ax;i indisi si ye atandi
+    mov bl,sayilar[si]; tmp=sayilar[i] 
+    mov di,dx; min=di (indis)
+    mov dl,sayilar[di]   ; hata almamak icin
+    mov sayilar[si],dl ; sayilar[i]   = sayilar[min]
+    mov sayilar[di],bl; sayilar[min]=tmp
+    jmp devam2 ; devam 2 ye kosulsuz git
+    
+dongu2:       
+    mov dl,sayilar[si] ; d registerinin l bolumune sayilar[si](min) ata
+    cmp sayilar[di],dl  ; min ile  sayilar[di] ' i karsilastir
+    jb minbul ; eger  sayilar[di] kucukse minden minBul a git
+    devam:
+    inc di ; di yani j yi 1 arttir
+    cmp di,10 ; di ve 10  karsilasitir
+    jb dongu2 ;di 10 dan kucukse  dongu2 devam   
+    jae minKaydet ; di 10 a esit veya buyuk ise minKaydet e git
+     
+    
+minbul:    
+    mov si,di  ; min elemanin indisini si de tut
+    jmp devam  ; kosulsuz olarak devam bolumune atla
+
+   
+       
+     
+
+
+
+devam2:
+mov si,ax ; i indisini muhafaza etmistik tekrardan onu si ye ata 
+inc si; dis dongu (i) indisini bir arttir 
+cmp si,9 ; n-1 adet elemana kadar bakildimi     
+jb dongu1 ; bakilmadiysa dongu1 calissin 
+ 
+
+; sayilar dizisini registerlr uzerinden okumak icin
+mov si,0   
+
+mov al,sayilar[si]
+inc si     
+mov ah,sayilar[si]   
+inc si
+mov bl,sayilar[si]
+inc si      
+mov bh,sayilar[si]
+inc si 
+mov cl,sayilar[si]
+inc si 
+mov ch,sayilar[si]
+inc si 
+mov dl,sayilar[si]  
+inc si 
+mov dh,sayilar[si]   
+
+;registerler ax,bx,cx,dx sirasiyle  once l sonra h okunarak  dizinin siralanmasi anlasilir  
+hlt; n-1 adet elemana bakildi, bitir.
+
+
+
+    
+    
+    
